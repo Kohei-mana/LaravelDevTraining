@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 * 本の一覧表示(books.blade.php)
 */
 Route::get('/', function () {
-    return view('book');
+    return view('books');
 });
 
 /**
