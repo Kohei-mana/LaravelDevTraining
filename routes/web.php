@@ -21,4 +21,4 @@ Route::delete('/book/{book}','BooksController@destroy');
 
 //Auth
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'BooksController@index')->name('home');
