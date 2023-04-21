@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Log;
 
 //使うClassを宣言:自分で追加
 use App\Book;   //Bookモデルを使えるようにする
@@ -72,12 +72,20 @@ class BooksController extends Controller
                     ->withInput()
                     ->withErrors($validator);
         }
+        $file = $request->file('item_img');
+        if( !empty($file) ) { //fileが空かチェック
+            $filename = $file->getClientOriginalName();   //ファイル名を取得
+            $move = $file->move('./upload/',$filename);  //ファイルを移動：パスが“./upload/”の場合もあるCloud9
+        }else{
+            $filename = "";
+        }
         // Eloquentモデル（登録処理）
         $books = new Book;
         $books->user_id  = Auth::user()->id;
         $books->item_name = $request->item_name;
         $books->item_number = $request->item_number;
         $books->item_amount = $request->item_amount;
+        $books->item_img = $filename;
         $books->published = $request->published;
         $books->save();
         return redirect('/')->with('message', '本登録が完了しました');
